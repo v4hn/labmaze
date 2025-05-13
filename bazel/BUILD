@@ -19,20 +19,3 @@
 package(
     default_visibility = ["@//:__subpackages__"],
 )
-
-licenses(["notice"])
-
-config_setting(
-    name = "linux",
-    constraint_values = ["@bazel_tools//platforms:linux"],
-)
-
-config_setting(
-    name = "apple",
-    constraint_values = ["@bazel_tools//platforms:osx"],
-)
-
-config_setting(
-    name = "windows",
-    constraint_values = ["@bazel_tools//platforms:windows"],
-)

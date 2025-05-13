@@ -37,8 +37,8 @@ REQUIRED_PACKAGES = [
     'setuptools!=50.0.0',  # https://github.com/pypa/setuptools/issues/2350
 ]
 
-WORKSPACE_PYTHON_HEADERS_PATTERN = re.compile(
-    r'(?<=path = ").*(?=",  # May be overwritten by setup\.py\.)')
+PYTHON_HEADERS_PATTERN = re.compile(
+    r'(?<=python_version = ").*(?=",  # May be overwritten by setup\.py\.)')
 
 IS_WINDOWS = sys.platform.startswith('win')
 
@@ -64,14 +64,13 @@ class BuildBazelExtension(build_ext.build_ext):
     build_ext.build_ext.run(self)
 
   def bazel_build(self, ext):
-    with open('WORKSPACE', 'r') as f:
-      workspace_contents = f.read()
+    with open('MODULE.bazel', 'r') as f:
+      module_contents = f.read()
 
-    with open('WORKSPACE', 'w') as f:
-      f.write(WORKSPACE_PYTHON_HEADERS_PATTERN.sub(
-          distutils.sysconfig.get_python_inc().replace(os.path.sep,
-                                                       posixpath.sep),
-          workspace_contents))
+    with open('MODULE.bazel', 'w') as f:
+      f.write(PYTHON_HEADERS_PATTERN.sub(
+          distutils.sysconfig.get_python_version(),
+          module_contents))
 
     if not os.path.exists(self.build_temp):
       os.makedirs(self.build_temp)

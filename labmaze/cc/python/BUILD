@@ -17,18 +17,16 @@
 #   Raw pybind11 bindings for LabMaze. Intended for internal usage only.
 #   Please use the Python API provided directly under the LabMaze package.
 
-load("//bazel:build_defs.bzl", "pybind11_extension")
+load("@pybind11_bazel//:build_defs.bzl", "pybind_extension")
 
-licenses(["notice"])
-
-pybind11_extension(
+pybind_extension(
     name = "_defaults",
     srcs = ["_defaults.cc"],
     visibility = ["//labmaze:__subpackages__"],
     deps = ["//labmaze/cc:defaults"],
 )
 
-pybind11_extension(
+pybind_extension(
     name = "_random_maze",
     srcs = ["_random_maze.cc"],
     visibility = ["//labmaze:__subpackages__"],
